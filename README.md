@@ -54,5 +54,30 @@ docker-compose up --build
 open at http://localhost:8000/
 
 ## Project Structure
-![image](https://github.com/user-attachments/assets/454ccb69-1fe4-4337-be3d-140201187584)
+BOOK-STORE-FINAL/
+├── bookstore/                   # Django project settings
+│   ├── __init__.py
+│   ├── asgi.py
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+│
+├── books/                       # App for books and admin logic
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── models.py
+│   ├── templates/
+│   ├── tests.py
+│   ├── urls.py
+│   └── views.py
+│
+├── docker-compose.yml
+├── Dockerfile
+├── Jenkinsfile
+├── manage.py
+├── requirements.txt
+├── demo (2).gif                 # Demo visual
+└── README.md
+
 
