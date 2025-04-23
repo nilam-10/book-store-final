@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <!-- Messages -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-danger{% endif %} alert-dismissible fade show animate__animated animate__bounceIn" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="card shadow-lg rounded-3 border-0 animate__animated animate__fadeIn">
+        <div class="card-body p-5">
+            <h2 class="fw-bold mb-4 text-primary">{% if book %}Edit Book{% else %}Add Book{% endif %}</h2>
+            <form method="post" id="book-form">
+                {% csrf_token %}
+                <!-- Title -->
+                <div class="mb-4">
+                    <label for="title" class="form-label fw-semibold text-dark">Title</label>
+                    <input type="text" id="title" name="title" value="{{ book.title|default_if_none:title|default_if_none:'' }}" required
+                           class="form-control form-control-lg rounded-3 shadow-sm transition-all duration-300 hover:shadow"
+                           placeholder="Enter book title" aria-required="true">
+                </div>
+                <!-- Author -->
+                <div class="mb-4">
+                    <label for="author" class="form-label fw-semibold text-dark">Author</label>
+                    <input type="text" id="author" name="author" value="{{ book.author|default_if_none:author|default_if_none:'' }}" required
+                           class="form-control form-control-lg rounded-3 shadow-sm transition-all duration-300 hover:shadow"
+                           placeholder="Enter author name" aria-required="true">
+                </div>
+                <!-- Price -->
+                <div class="mb-4">
+                    <label for="price" class="form-label fw-semibold text-dark">Price (INR)</label>
+                    <input type="number" id="price" name="price" step="0.01" min="0" value="{{ book.price|default_if_none:price|default_if_none:'' }}" required
+                           class="form-control form-control-lg rounded-3 shadow-sm transition-all duration-300 hover:shadow"
+                           placeholder="Enter price in INR" aria-required="true">
+                </div>
+                <!-- Description -->
+                <div class="mb-4">
+                    <label for="description" class="form-label fw-semibold text-dark">Description</label>
+                    <textarea id="description" name="description" rows="5"
+                              class="form-control form-control-lg rounded-3 shadow-sm transition-all duration-300 hover:shadow"
+                              placeholder="Enter book description">{{ book.description|default_if_none:description|default_if_none:'' }}</textarea>
+                </div>
+                <!-- Buttons -->
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-primary btn-lg shadow rounded-3 px-5 transition-all duration-300 hover:shadow-lg">
+                        {% if book %}Save Changes{% else %}Add Book{% endif %}
+                    </button>
+                    <a href="{% url 'admin_panel' %}" class="btn btn-secondary btn-lg shadow rounded-3 px-5 transition-all duration-300 hover:shadow-lg">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Client-side Validation
+    document.getElementById('book-form').addEventListener('submit', function(event) {
+        const price = document.getElementById('price').value;
+        if (price < 0) {
+            alert('Price cannot be negative.');
+            event.preventDefault();
+        }
+    });
+</script>
+
+<!-- Animate.css for subtle animations -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+{% endblock %}

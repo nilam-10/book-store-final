@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Your Cart</h2>
+{% if cart_items %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Book</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart_items %}
+                <tr>
+                    <td>{{ item.book.title }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>${{ item.book.price }}</td>
+                    <td>
+                        <!-- Link to remove item from the cart -->
+                        <a href="{% url 'remove_from_cart' item.book.id %}" class="btn btn-danger">Remove</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Your cart is empty.</p>
+{% endif %}
+<a href="{% url 'book_list' %}" class="btn btn-secondary">Continue Shopping</a>
+{% endblock %}

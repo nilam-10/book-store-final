@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>{{ book.title }}</h2>
+<p><strong>Author:</strong> {{ book.author }}</p>
+<p><strong>Price:</strong> ${{ book.price }}</p>
+<p><strong>Stock:</strong> {{ book.stock }}</p>
+<form method="post" action="{% url 'add_to_cart' book.id %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-success">Add to Cart</button>
+</form>
+<a href="{% url 'book_list' %}" class="btn btn-secondary">Back to Books</a>
+{% endblock %}

@@ -1,0 +1,27 @@
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                sh 'docker build -t bookstore-app .'
+            }
+        }
+        stage('Test') {
+            steps {
+                sh 'docker-compose -f docker-compose.yml up -d'
+                sh 'docker exec $(docker ps -q -f name=bookstore_web) python manage.py test'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                sh 'docker-compose down'
+                sh 'docker-compose up -d'
+            }
+        }
+    }
+    post {
+        always {
+            sh 'docker-compose down'
+        }
+    }
+}
